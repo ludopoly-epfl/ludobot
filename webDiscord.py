@@ -7,6 +7,8 @@ from discord import app_commands
 import os
 from keepalive import keep_alive
 
+TOKEN=os.getenv("DISCORD_TOKEN")
+
 Lcomité=list()
 Lcomité.append("Lucas")
 Lcomité.append("Nathan") 
@@ -344,7 +346,7 @@ async def dice(interaction : discord.Interaction, val: int, nb:int) :
                         await interaction.response.send_message(mots)  
 """
 
-client.run('MTQxMDU1NDc3MzYxMDE2ODMyMA.G9TeIo.La_YLAc8YAJPKCFfCZfxTI4Rt2r8AxNOtMTvSM')
+client.run(TOKEN)
 #client.run(os.getenv("DISCORD_TOKEN"))
 
 
