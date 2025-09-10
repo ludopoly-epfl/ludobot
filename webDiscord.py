@@ -254,6 +254,8 @@ async def on_message( message):
         if message.author != client.user:
             phrase=dad(message.content)
             if (phrase!=None):
+                if "everyone" in phrase:
+                    await message.channel.send("Bien essayé !")
                 await message.channel.send(phrase)
             elif islol(message.content):
                 await message.channel.send(lolbad())
@@ -261,7 +263,7 @@ async def on_message( message):
 @client.tree.command(name="lolisgood",description="Interdit ça", guild=LuluServ)
 async def lolisgood(interaction : discord.Interaction) :
         GUILD=interaction.guild
-        await interaction.response.send_message("You are going to Brazil",ephemeral=True)
+        await interaction.response.send_message(f'{interaction.user.mention} a choisi le chemin du mal.')
         await prisontime(GUILD, interaction.user)
 
 @client.tree.command(name="exécution",description="Retirer le rôle peuple de la cible et la place en prison",guild=LuluServ)
@@ -294,6 +296,8 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
         rolls=discord.utils.get(interaction.guild.roles  ,name=game)
         await plusrole(rolls, cible)
     await interaction.followup.send("Opération réussie",ephemeral=True)
+    victor_phrase=f'Oyez oyez ! {cible.mention} à triomphé de {nom} au {jeu} et a obtenu la liberté !'
+    await interaction.guild.get_channel(prison_id).send(victor_phrase)
 
 
 
