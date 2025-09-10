@@ -254,9 +254,10 @@ async def on_message( message):
         if message.author != client.user:
             phrase=dad(message.content)
             if (phrase!=None):
-                if "everyone" in phrase:
+                if "@" in phrase:
                     await message.channel.send("Bien essayé !")
-                await message.channel.send(phrase)
+                else:
+                    await message.channel.send(phrase)
             elif islol(message.content):
                 await message.channel.send(lolbad())
 
