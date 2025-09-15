@@ -372,7 +372,8 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
                        date="Date de récupération (JJ/MM/AAAA)",
                        heure="Heure de récupération (HH:MM)")
 async def  emprunt(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
-    await emprun(interaction, nom_jeu, date, heure)
+    #await emprun(interaction, nom_jeu, date, heure)
+        interaction.response.send_message("hello") 
 
 
 @client.tree.command(name="dé",description="Lance un dé à val faces", guild=LuluServ)
