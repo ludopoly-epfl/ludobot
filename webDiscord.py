@@ -6,7 +6,7 @@ from discord.ext import commands
 from discord import app_commands
 import os
 from keepalive import keep_alive
-from eric import emprunt
+from eric import emprun
 
 TOKEN=os.getenv("DISCORD_TOKEN")
 
@@ -371,8 +371,8 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
 @app_commands.describe(nom_jeu="Nom complet du jeu à emprunter",
                        date="Date de récupération (JJ/MM/AAAA)",
                        heure="Heure de récupération (HH:MM)")
-async def  vol(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
-    await emprunt(interaction, nom_jeu, date, heure)
+async def  emprunt(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
+    await emprun(interaction, nom_jeu, date, heure)
 
 
 @client.tree.command(name="dé",description="Lance un dé à val faces", guild=LuluServ)

@@ -18,7 +18,7 @@ client = gspread.authorize(credentials)
                        heure="Heure de récupération (HH:MM)")
 """
 
-async def emprunt(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
+async def emprun(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
     
     await interaction.response.defer(ephemeral=True)
 
