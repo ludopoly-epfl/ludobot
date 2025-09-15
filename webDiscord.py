@@ -6,6 +6,7 @@ from discord.ext import commands
 from discord import app_commands
 import os
 from keepalive import keep_alive
+from eric import emprunt
 
 TOKEN=os.getenv("DISCORD_TOKEN")
 
@@ -19,8 +20,38 @@ Lcomité.append("Blanche")
 Lcomité.append("Alonso")
 Lcomité.append("Léo")
 Lcomité.append("Titouan")
+Lcomité.append("Thomas")
+Lcomité.append("Sébastien")
 Lcomité.append("Éric")
 Lcomité.append("Eric")
+
+Lidcomte=list()
+Lidcomte.append(282237085908467713)#andré
+Lidcomte.append(259772130516795392)#thomas
+Lidcomte.append(633975303756185603)#blanche
+Lidcomte.append(579395206680412172)#leo
+Lidcomte.append(1165720948851355761)#lucas
+Lidcomte.append(697405782429270018)#éric
+Lidcomte.append(364435666039341056)#mathis
+Lidcomte.append(559073108443660499)#roy
+Lidcomte.append(444068012249710593)#pochita
+Lidcomte.append(830494223794831422) #séba
+Lidcomte.append(556476223354830879) #titou
+Lidcomte.append(149928233201172480) #nathan
+
+Allcomite=list()
+Allcomite.append([282237085908467713,"André"])
+Allcomite.append([259772130516795392,"Thomas"])
+Allcomite.append([633975303756185603,"Blanche"])
+Allcomite.append([579395206680412172,"Léo"])
+Allcomite.append([1165720948851355761,"Lucas"])
+Allcomite.append([697405782429270018,"Éric"])
+Allcomite.append([364435666039341056,"Mathis"])
+Allcomite.append([559073108443660499,"Roy"])
+Allcomite.append([444068012249710593,"Alonso"])
+Allcomite.append([830494223794831422,"Sébastien"])
+Allcomite.append([556476223354830879,"Titouan"])
+Allcomite.append([149928233201172480,"Nathan"])
 
 
 list6=list()
@@ -67,6 +98,25 @@ LudopServId=1361756747303358524
 prison_id=1361761128438563146
 prisonnier_id=1373418119078346833
 chabienv_id=1361763187799756890
+ludann_id=1416834037183418439
+admin_id=1361760489268318228
+comite_id=1407440127210422383
+
+
+def findname( comiteid ):
+    for i in Allcomite:
+        if i[0]==comiteid:
+            return i[1]
+    return None
+
+
+def add_count (cible : discord.member) :
+    iden=cible.id
+    return
+
+def reset_count( cible:discord.member):
+    iden=cible.id
+    return
 
 def iscomité (mot :str) :
     mot=mot.lower()
@@ -95,7 +145,7 @@ def islol(word) :
 
 
 def lolbad() :
-    b=6
+    b=7
     n=ra.randint(0, b)
     if n==0 :
         return "LoL is bad."
@@ -111,6 +161,8 @@ def lolbad() :
         return "LoL is not good."
     elif n==6 :
         return "LoL n'est pas bien."
+    elif n==7:
+        return "Il ne faut pas jouer à LoL"
     
 keep_alive()
 
@@ -124,21 +176,26 @@ async def minusrole (role: discord.Role, user: discord.Member):
 
 
 async def prisontime(guild : discord.guild, user: discord.Member) :
+    admin=discord.utils.get(guild.roles, id=admin_id)
+    if admin in user.roles:
+        return
     prisonnier=discord.utils.get(guild.roles  ,id=prisonnier_id)
     peuple=discord.utils.get(guild.roles,id=1373305997053136936)
-    print(type(guild))
-    print(type(user))
+    comite=discord.utils.get(guild.roles  ,id=comite_id)
+    await minusrole(comite,user)
     await minusrole(peuple,user)
     await plusrole(prisonnier,user)
 
 
-async def freedom(guild, user) :
+
+async def freedom(guild:discord.guild, user:discord.member) :
     prisonnier=discord.utils.get(guild.roles  ,id=prisonnier_id)
     peuple=discord.utils.get(guild.roles,id=1373305997053136936)
-    print(type(guild))
-    print(type(user))
+    comite=discord.utils.get(guild.roles  ,id=comite_id)
     await minusrole(prisonnier,user)
     await plusrole(peuple,user)
+    if user.id in Lidcomte:
+        await plusrole(comite,user)
 
 
 """ Version pas finie faite par moi car trop compliqué
@@ -231,7 +288,6 @@ class Client(commands.Bot):
 
     async def on_member_join(self, member:discord.Member):
         bienvenue=f'Bienvenue {member.mention}, tu commence ta vie ici dans la {member.guild.get_channel(prison_id)}, regarde le message pin là bas'
-        prisonnier=discord.utils.get(member.guild.roles,id=prison_id)
         await prisontime(member.guild, member)
         print(bienvenue)
         await member.guild.get_channel(chabienv_id).send(bienvenue)
@@ -266,6 +322,7 @@ async def lolisgood(interaction : discord.Interaction) :
         GUILD=interaction.guild
         await interaction.response.send_message(f'{interaction.user.mention} a choisi le chemin du mal.')
         await prisontime(GUILD, interaction.user)
+        add_count(interaction.user)
 
 @client.tree.command(name="exécution",description="Retirer le rôle peuple de la cible et la place en prison",guild=LuluServ)
 async def kill(interaction: discord.Interaction, cible :discord.User ):
@@ -278,16 +335,22 @@ async def kill(interaction: discord.Interaction, cible :discord.User ):
 
 
 @client.tree.command(name="victoire",description="Libère cible, et lui donne le rôle 'comité' slayer et 'jeu' master",guild=LuluServ)
-async def victoire(interaction: discord.Interaction, cible :discord.User , comité: str, jeu : str) :
+@app_commands.describe(cible="Membre à libérer", comité="Membre du Comité vaincu",jeu="Jeu d'affrontement")
+async def victoire(interaction: discord.Interaction, cible :discord.User , comité: discord.Member, jeu : str) :
     await interaction.response.defer(ephemeral=True)
-    nom=iscomité(comité)
-    if nom == None:
+    comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
+    if   comite in comité.roles :
         await interaction.followup.send("Nom de membre du comité invalide",ephemeral=True)
         return
+    nom= findname(comité.id)
+    if nom==None:
+        await interaction.followup.send("Erreur comité",ephemeral=True)
+        return   
     envoyer=nom+" Slayer"
     rolle=discord.utils.get(interaction.guild.roles  ,name=envoyer)
     await freedom(interaction.guild, cible)
     await plusrole(rolle, cible)
+    jeu=jeu.strip().lower().capitalize()
     game=jeu +" Master"
     attempt=discord.utils.get(interaction.guild.roles  ,name=game)
     if attempt :
@@ -297,14 +360,23 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
         rolls=discord.utils.get(interaction.guild.roles  ,name=game)
         await plusrole(rolls, cible)
     await interaction.followup.send("Opération réussie",ephemeral=True)
-    victor_phrase=f'Oyez oyez ! {cible.mention} à triomphé de {nom} au {jeu} et a obtenu la liberté !'
+    victor_phrase=f'Oyez oyez ! {cible.mention} à triomphé de {comité.mention} au {jeu} et a obtenu la liberté !'
     await interaction.guild.get_channel(prison_id).send(victor_phrase)
+    reset_count(cible)
 
 
 
 
+@client.tree.command(name="emprunt", description="Emprunter un jeu")
+@app_commands.describe(nom_jeu="Nom complet du jeu à emprunter",
+                       date="Date de récupération (JJ/MM/AAAA)",
+                       heure="Heure de récupération (HH:MM)")
+async def  vol(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
+    await emprunt(interaction, nom_jeu, date, heure)
 
-@client.tree.command(name="dé",description="Lance un dé. val>1 correspond au nombre de faces", guild=LuluServ)
+
+@client.tree.command(name="dé",description="Lance un dé à val faces", guild=LuluServ)
+@app_commands.describe(val=">1 : Nombre de faces")
 async def dice(interaction : discord.Interaction, val: int) :
         GUILD=interaction.guild
         if val <= 1 :
@@ -314,12 +386,14 @@ async def dice(interaction : discord.Interaction, val: int) :
             num=ra.randint(1,val)
             if val ==6 :
                 if num==1:
-                    await prisontime(GUILD, interaction.user)
+                    #await prisontime(GUILD, interaction.user)
+                    add_count(interaction.user)
                 mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list6[num-1]
                 await interaction.response.send_message(mots)
             else :
                 if num==1:
-                    await prisontime(GUILD, interaction.user)
+                    #await prisontime(GUILD, interaction.user)
+                    add_count(interaction.user)
                 numv=((1-20)*num+20-val)/(1-val)
                 if (num<20) and (num>19) :
                     mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {19} : '+list20[19-1]
