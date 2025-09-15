@@ -367,13 +367,13 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
 
 
 
-@client.tree.command(name="emprunt", description="Emprunter un jeu")
+@client.tree.command(name="emprunt", description="Emprunter un jeu",guild=LuluServ)
 @app_commands.describe(nom_jeu="Nom complet du jeu à emprunter",
                        date="Date de récupération (JJ/MM/AAAA)",
                        heure="Heure de récupération (HH:MM)")
 async def  emprunt(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
-    #await emprun(interaction, nom_jeu, date, heure)
-        interaction.response.send_message("hello") 
+    await emprun(interaction, nom_jeu, date, heure)
+    #interaction.response.send_message("hello") 
 
 
 @client.tree.command(name="dé",description="Lance un dé à val faces", guild=LuluServ)
@@ -435,3 +435,4 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
+
