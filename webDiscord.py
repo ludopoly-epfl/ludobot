@@ -339,7 +339,7 @@ async def kill(interaction: discord.Interaction, cible :discord.User ):
 async def victoire(interaction: discord.Interaction, cible :discord.User , comité: discord.Member, jeu : str) :
     await interaction.response.defer(ephemeral=True)
     comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
-    if   comite in comité.roles :
+    if   not comite in comité.roles :
         await interaction.followup.send("Nom de membre du comité invalide",ephemeral=True)
         return
     nom= findname(comité.id)
@@ -435,4 +435,5 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
+
 
