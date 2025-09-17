@@ -326,9 +326,9 @@ async def on_message( message):
         if message.author != client.user:
             phrase=dad(message.content)
             if (phrase!=None):
-                if (len(phrase)>Dad_Limit) :
-                    await imnotreadingthat(message)
-                elif "@" in phrase:
+                #if (len(phrase)>Dad_Limit) :
+                 #   await imnotreadingthat(message)
+                if "@" in phrase:
                     await message.channel.send("Bien essayé !")
                 else:
                     await message.channel.send(phrase)
@@ -466,3 +466,4 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
+
