@@ -9,6 +9,7 @@ from keepalive import keep_alive
 from eric import emprun
 
 TOKEN=os.getenv("DISCORD_TOKEN")
+Dad_Limit=os.getenv("Dad_Limit")
 
 Lcomité=list()
 Lcomité.append("Lucas")
@@ -101,7 +102,7 @@ chabienv_id=1361763187799756890
 ludann_id=1416834037183418439
 admin_id=1361760489268318228
 comite_id=1407440127210422383
-
+mauvais_id=1417910380138725396
 
 def findname( comiteid ):
     for i in Allcomite:
@@ -165,6 +166,14 @@ def lolbad() :
         return "Il ne faut pas jouer à LoL"
     
 keep_alive()
+
+async def imnotreadingthat(message :discord.message):
+    try :
+        with open('notread.png', 'rb') as f:
+            picture = discord.File(f)
+            await message.channel.send(file=picture)
+    except:
+        await message.channel.send("Je ne lirais pas ça")
 
 async def plusrole (role :discord.Role, user: discord.Member):
     if (not role in user.roles) :
@@ -261,13 +270,20 @@ def dad(texte:str) :
     if num==0 :
         return None
     bla=finddad(texte,match)
-    if num==1 :
-        
-        mots="Bonjour "+ bla+" ! Je suis Ludobot !"
-        return mots
-    else  :
-        mots="Hi "+bla+" ! I'm Ludobot !"
-        return mots
+    if islol(bla):
+        if num==1 :
+            mots="Bonjour "+ bla+" ! Je suis Ludobot, le plus grand hater de LoL !"
+            return mots
+        else  :
+            mots="Hi "+bla+" ! I'm Ludobot, LoL's n°1 hater !"
+            return mots
+    else :
+        if num==1 :
+            mots="Bonjour "+ bla+" ! Je suis Ludobot !"
+            return mots
+        else  :
+            mots="Hi "+bla+" ! I'm Ludobot !"
+            return mots
 
     
 
@@ -310,7 +326,9 @@ async def on_message( message):
         if message.author != client.user:
             phrase=dad(message.content)
             if (phrase!=None):
-                if "@" in phrase:
+                if (len(phrase)>Dad_Limit) :
+                    await imnotreadingthat(message)
+                elif "@" in phrase:
                     await message.channel.send("Bien essayé !")
                 else:
                     await message.channel.send(phrase)
@@ -333,6 +351,21 @@ async def kill(interaction: discord.Interaction, cible :discord.User ):
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
 
+@client.tree.command(name="évasion",description="Sortir de prison",guild=LuluServ)
+async def evasion(interaction: discord.Interaction, cible :discord.User ):
+    guild=interaction.guild
+    user=interaction.user
+    try:
+        prisonnier=discord.utils.get(guild.roles  ,id=prisonnier_id)
+        mauvais=discord.utils.get(guild.roles,id=mauvais_id)
+        await minusrole(prisonnier,user)
+        await plusrole(mauvais,user)
+        await interaction.response.send_message(f'{interaction.user.mention} a pris la poudre d\'escampette !')
+    except:
+        await interaction.response.send_message("Erreur",ephemeral=True)
+
+
+
 
 @client.tree.command(name="victoire",description="Libère cible, et lui donne le rôle 'comité' slayer et 'jeu' master",guild=LuluServ)
 @app_commands.describe(cible="Membre à libérer", comité="Membre du Comité vaincu",jeu="Jeu d'affrontement")
@@ -340,7 +373,7 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
     await interaction.response.defer(ephemeral=True)
     comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
     if   not comite in comité.roles :
-        await interaction.followup.send("Nom de membre du comité invalide",ephemeral=True)
+        await interaction.followup.send("Membre de comité invalide",ephemeral=True)
         return
     nom= findname(comité.id)
     if nom==None:
@@ -368,9 +401,7 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
 
 
 @client.tree.command(name="emprunt", description="Emprunter un jeu",guild=LuluServ)
-@app_commands.describe(nom_jeu="Nom complet du jeu à emprunter",
-                       date="Date de récupération (JJ/MM/AAAA)",
-                       heure="Heure de récupération (HH:MM)")
+@app_commands.describe(nom_jeu="Nom complet du jeu à emprunter",date="Date de récupération (JJ/MM/AAAA)",heure="Heure de récupération (HH:MM)")
 async def  emprunt(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
     await emprun(interaction, nom_jeu, date, heure)
     #interaction.response.send_message("hello") 
@@ -435,5 +466,3 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
-
-
