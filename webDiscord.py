@@ -10,7 +10,7 @@ from eric import emprun
 
 TOKEN=os.getenv("DISCORD_TOKEN")
 Dad_Limit=os.getenv("Dad_Limit")
-dlim=os.getenv("de_limit")
+dlim=os.getenv("dé_limit")
 
 Lcomité=list()
 Lcomité.append("Lucas")
@@ -317,9 +317,9 @@ async def on_message( message):
         if message.author != client.user:
             phrase=dad(message.content)
             if (phrase!=None):
-                if (len(phrase)>Dad_Limit) :
-                    await imnotreadingthat(message)
-                elif "@" in phrase:
+                #if (len(phrase)>Dad_Limit) :
+                #    await imnotreadingthat(message)
+                if "@" in phrase:
                     await message.channel.send("Bien essayé !")
                 else:
                     await message.channel.send(phrase)
@@ -329,7 +329,7 @@ async def on_message( message):
 @client.tree.command(name="lolisgood",description="Interdit ça", guild=LuluServ)
 async def lolisgood(interaction : discord.Interaction) :
         GUILD=interaction.guild
-        await interaction.guild.get_channel(channel_id=ludann_id).send(f'{interaction.user.mention} a choisi le chemin du mal.')
+        await interaction.guild.get_channel(channel_id=ludann_id).send("Quelqu'un a choisi le chemin du mal.")
         await interaction.response.send_message("You are going to Brazil !",ephemeral=True)
         await prisontime(GUILD, interaction.user)
         add_count(interaction.user)
@@ -353,7 +353,9 @@ async def evasion(interaction: discord.Interaction):
         await minusrole(prisonnier,user)
         await plusrole(mauvais,user)
         await interaction.response.send_message("Evasion réussie !",ephemeral=True)
-        await guild.get_channel(channel_id=ludann_id).send(f'{interaction.user.mention} a pris la poudre d\'escampette !')
+        escape=f'{user.mention} a pris la poudre d\'escampette !'
+        await guild.get_channel(channel_id=ludann_id).send(escape)
+        
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
 
@@ -459,5 +461,3 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
-
-
