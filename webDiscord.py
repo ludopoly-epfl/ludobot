@@ -352,8 +352,8 @@ async def evasion(interaction: discord.Interaction):
         mauvais=discord.utils.get(guild.roles,id=mauvais_id)
         await minusrole(prisonnier,user)
         await plusrole(mauvais,user)
-        await interaction.guild.get_channel(channel_id=ludann_id).send(f'{interaction.user.mention} a pris la poudre d\'escampette !')
         await interaction.response.send_message("Evasion réussie !",ephemeral=True)
+        await guild.get_channel(channel_id=ludann_id).send(f'{interaction.user.mention} a pris la poudre d\'escampette !')
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
 
@@ -459,4 +459,5 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
+
 
