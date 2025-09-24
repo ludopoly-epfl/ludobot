@@ -10,7 +10,7 @@ from eric import emprun
 
 TOKEN=os.getenv("DISCORD_TOKEN")
 Dad_Limit=os.getenv("Dad_Limit")
-dlim=os.getenv("dé_limit")
+dlim=os.getenv("de_limit")
 
 Lcomité=list()
 Lcomité.append("Lucas")
@@ -459,3 +459,4 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
+
