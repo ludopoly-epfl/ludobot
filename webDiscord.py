@@ -10,6 +10,7 @@ from eric import emprun
 
 TOKEN=os.getenv("DISCORD_TOKEN")
 Dad_Limit=os.getenv("Dad_Limit")
+dlim=os.getenv("dé_limit")
 
 Lcomité=list()
 Lcomité.append("Lucas")
@@ -63,27 +64,17 @@ list6.append("C'est bon on passe")
 list6.append("Très propre franchement")
 list6.append("Félicitations ! Tu as transcendé la condition humaine !")
 
-list20=list()
-list20.append("C'est ciao pour toi.")
-list20.append("C'est pas passé loin !")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("")
-list20.append("Excellent ça !")
+list10=list()
+list10.append("C'est ciao pour toi.")
+list10.append("C'est pas passé loin !")
+list10.append("C'est pas ton jour aujourd'hui dit-donc.")
+list10.append("Pas fifou ça.")
+list10.append("C'est moyen, littéralement.")
+list10.append("T'aimes bien passer juste non ?")
+list10.append("Ça commence à devenir bon.")
+list10.append("Impressionnant.")
+list10.append("On approche de la perfection !")
+list10.append("Excellent ça !")
 
 trucs=list()
 trucs.append("jesuis")
@@ -326,9 +317,9 @@ async def on_message( message):
         if message.author != client.user:
             phrase=dad(message.content)
             if (phrase!=None):
-                #if (len(phrase)>Dad_Limit) :
-                 #   await imnotreadingthat(message)
-                if "@" in phrase:
+                if (len(phrase)>Dad_Limit) :
+                    await imnotreadingthat(message)
+                elif "@" in phrase:
                     await message.channel.send("Bien essayé !")
                 else:
                     await message.channel.send(phrase)
@@ -338,7 +329,8 @@ async def on_message( message):
 @client.tree.command(name="lolisgood",description="Interdit ça", guild=LuluServ)
 async def lolisgood(interaction : discord.Interaction) :
         GUILD=interaction.guild
-        await interaction.response.send_message(f'{interaction.user.mention} a choisi le chemin du mal.')
+        await interaction.guild.get_channel(channel_id=ludann_id).send(f'{interaction.user.mention} a choisi le chemin du mal.')
+        await interaction.response.send_message("You are going to Brazil !",ephemeral=True)
         await prisontime(GUILD, interaction.user)
         add_count(interaction.user)
 
@@ -352,7 +344,7 @@ async def kill(interaction: discord.Interaction, cible :discord.User ):
         await interaction.response.send_message("Erreur",ephemeral=True)
 
 @client.tree.command(name="évasion",description="Sortir de prison",guild=LuluServ)
-async def evasion(interaction: discord.Interaction, cible :discord.User ):
+async def evasion(interaction: discord.Interaction):
     guild=interaction.guild
     user=interaction.user
     try:
@@ -360,7 +352,8 @@ async def evasion(interaction: discord.Interaction, cible :discord.User ):
         mauvais=discord.utils.get(guild.roles,id=mauvais_id)
         await minusrole(prisonnier,user)
         await plusrole(mauvais,user)
-        await interaction.response.send_message(f'{interaction.user.mention} a pris la poudre d\'escampette !')
+        await interaction.guild.get_channel(channel_id=ludann_id).send(f'{interaction.user.mention} a pris la poudre d\'escampette !')
+        await interaction.response.send_message("Evasion réussie !",ephemeral=True)
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
 
@@ -394,7 +387,7 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
         await plusrole(rolls, cible)
     await interaction.followup.send("Opération réussie",ephemeral=True)
     victor_phrase=f'Oyez oyez ! {cible.mention} à triomphé de {comité.mention} au {jeu} et a obtenu la liberté !'
-    await interaction.guild.get_channel(prison_id).send(victor_phrase)
+    await interaction.guild.get_channel(ludann_id).send(victor_phrase)
     reset_count(cible)
 
 
@@ -426,13 +419,13 @@ async def dice(interaction : discord.Interaction, val: int) :
                 if num==1:
                     #await prisontime(GUILD, interaction.user)
                     add_count(interaction.user)
-                numv=((1-20)*num+20-val)/(1-val)
-                if (num<20) and (num>19) :
-                    mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {19} : '+list20[19-1]
+                numv=((1-dlim)*num+dlim-val)/(1-val)
+                if (num<dlim) and (num>dlim) :
+                    mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {dlim} : '+list10[dlim-1]
                     await interaction.response.send_message(mots)
                 else :
                     numv=ma.ceil(numv)
-                    mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list20[numv-1]
+                    mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list10[numv-1]
                     await interaction.response.send_message(mots)  
 
 """
@@ -449,11 +442,11 @@ async def dice(interaction : discord.Interaction, val: int, nb:int) :
                 else :
                     num=((1-20)*num+20-val)/(1-val)
                     if (num<20) and (num>19) :
-                        mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {19} : '+list20[19-1]
+                        mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {19} : '+list10[19-1]
                         await interaction.response.send_message(mots)
                     else :
                         num=ma.ceil(num)
-                        mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list20[num-1]
+                        mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list10[num-1]
                         await interaction.response.send_message(mots)  
 """
 
@@ -466,4 +459,3 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
-
