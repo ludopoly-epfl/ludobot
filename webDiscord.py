@@ -329,8 +329,9 @@ async def on_message( message):
 @client.tree.command(name="lolisgood",description="Interdit ça", guild=LuluServ)
 async def lolisgood(interaction : discord.Interaction) :
         GUILD=interaction.guild
-        await interaction.guild.get_channel(channel_id=ludann_id).send("Quelqu'un a choisi le chemin du mal.")
-        await interaction.response.send_message("You are going to Brazil !",ephemeral=True)
+        channel = discord.utils.get(GUILD.channels, id=ludann_id)
+        await channel.send(content="Quelqu'un a choisi le chemin du mal.")
+        await interaction.response.send_message(content="You are going to Brazil !",ephemeral=True)
         await prisontime(GUILD, interaction.user)
         add_count(interaction.user)
 
@@ -345,6 +346,7 @@ async def kill(interaction: discord.Interaction, cible :discord.User ):
 
 @client.tree.command(name="évasion",description="Sortir de prison",guild=LuluServ)
 async def evasion(interaction: discord.Interaction):
+    await interaction.response.defer(ephemeral=True)
     guild=interaction.guild
     user=interaction.user
     try:
@@ -352,7 +354,7 @@ async def evasion(interaction: discord.Interaction):
         mauvais=discord.utils.get(guild.roles,id=mauvais_id)
         await minusrole(prisonnier,user)
         await plusrole(mauvais,user)
-        await interaction.response.send_message("Evasion réussie !",ephemeral=True)
+        await interaction.followup.send("Evasion réussie !",ephemeral=True)
         escape=f'{user.mention} a pris la poudre d\'escampette !'
         await guild.get_channel(channel_id=ludann_id).send(escape)
         
@@ -364,7 +366,7 @@ async def evasion(interaction: discord.Interaction):
 
 @client.tree.command(name="victoire",description="Libère cible, et lui donne le rôle 'comité' slayer et 'jeu' master",guild=LuluServ)
 @app_commands.describe(cible="Membre à libérer", comité="Membre du Comité vaincu",jeu="Jeu d'affrontement")
-async def victoire(interaction: discord.Interaction, cible :discord.User , comité: discord.Member, jeu : str) :
+async def victoire(interaction: discord.Interaction, cible :discord.Member , comité: discord.Member, jeu : str) :
     await interaction.response.defer(ephemeral=True)
     comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
     if   not comite in comité.roles :
@@ -374,6 +376,10 @@ async def victoire(interaction: discord.Interaction, cible :discord.User , comit
     if nom==None:
         await interaction.followup.send("Erreur comité",ephemeral=True)
         return   
+    prisonnier=discord.utils.get(interaction.guild.roles  ,id=prisonnier_id)
+    if not prisonnier in cible.roles :
+        await interaction.followup.send("La cible n'est pas en prison",ephemeral=True)
+        return
     envoyer=nom+" Slayer"
     rolle=discord.utils.get(interaction.guild.roles  ,name=envoyer)
     await freedom(interaction.guild, cible)
