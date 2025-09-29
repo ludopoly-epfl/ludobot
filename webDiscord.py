@@ -56,13 +56,12 @@ Allcomite.append([556476223354830879,"Titouan"])
 Allcomite.append([149928233201172480,"Nathan"])
 
 
-list6=list()
-list6.append("J'espère pour toi que t'auras pas cette note à l'exa")
-list6.append("Aïe, coup dur pour Guillaume")
-list6.append("C'est juste au milieu, mais ça ne passe pas")
-list6.append("C'est bon on passe")
-list6.append("Très propre franchement")
-list6.append("Félicitations ! Tu as transcendé la condition humaine !")
+list6=["J'espère pour toi que t'auras pas cette note à l'exa"
+,"Aïe, coup dur pour Guillaume"
+,"C'est juste au milieu, mais ça ne passe pas"
+,"C'est bon on passe"
+,"Très propre franchement"
+,"Félicitations ! Tu as transcendé la condition humaine !"]
 
 list10=list()
 list10.append("C'est ciao pour toi.")
@@ -324,8 +323,8 @@ async def on_message( message):
         if message.author != client.user:
             phrase=dad(message.content)
             if (phrase!=None):
-                if (len(phrase)>Dad_Limit) :
-                    await message.channel.send(content="C'est beaucoup trop de mots, je ne lis pas ça")
+                #if (len(phrase)>Dad_Limit) :
+                 #   await message.channel.send(content="C'est beaucoup trop de mots, je ne lis pas ça")
                 if "@" in phrase:
                     await message.channel.send("Bien essayé !")
                 else:
@@ -442,7 +441,7 @@ async def dice(interaction : discord.Interaction, val: int) :
                     add_count(interaction.user)
                 numv=((1-dlim)*num+dlim-val)/(1-val)
                 await logcha.send(f'numv= {numv}')
-                if (num<dlim) and (num>dlim) :
+                if (num<dlim) and (num>dlim-1) :
                     await logcha.send(f'numv= {numv}')
                     try :
                         mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {dlim} : {list10[dlim-1]}'
@@ -450,7 +449,7 @@ async def dice(interaction : discord.Interaction, val: int) :
                     except:
                         await interaction.followup.send(content="Il y a un truc chelou avec les dés fin")
                 else :
-                    await logcha.send(f'numv= {numv}')
+                    await logcha.send(f'numv= {numv}')  
                     try:
                         numv=ma.ceil(numv)
                         mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : {list10[numv-1]}'
