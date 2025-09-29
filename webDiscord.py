@@ -438,6 +438,7 @@ async def dice(interaction : discord.Interaction, val: int) :
                 if num==1:
                     #await prisontime(GUILD, interaction.user)
                     add_count(interaction.user)
+                    await discord.utils.get(GUILD.channels, name="erreurs").send("dé lancé")
                 numv=((1-dlim)*num+dlim-val)/(1-val)
                 if (num<dlim) and (num>dlim) :
                     try :
