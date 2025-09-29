@@ -427,8 +427,9 @@ async def dice(interaction : discord.Interaction, val: int) :
         if val <= 1 :
             await interaction.response.send_message(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
         else :
-
             num=ra.randint(1,val)
+            logcha= discord.utils.get(GUILD.channels,id=logs_id)
+            await logcha.send(f'dé de {val} lancé donne {num}')
             if val ==6 :
                 if num==1:
                     #await prisontime(GUILD, interaction.user)
@@ -436,8 +437,6 @@ async def dice(interaction : discord.Interaction, val: int) :
                 mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list6[num-1]
                 await interaction.followup.send(content=mots)
             else :
-                logcha= discord.utils.get(GUILD.channels,id=logs_id)
-                await logcha.send(f'dé de {val} lancé donne {num}')
                 if num==1:
                     #await prisontime(GUILD, interaction.user)
                     add_count(interaction.user)
