@@ -94,6 +94,7 @@ ludann_id=1416834037183418439
 admin_id=1361760489268318228
 comite_id=1407440127210422383
 mauvais_id=1417910380138725396
+logs_id=1422224976605610115
 
 def findname( comiteid ):
     for i in Allcomite:
@@ -422,7 +423,7 @@ async def  emprunt(interaction: discord.Interaction, nom_jeu: str, date: str, he
 @app_commands.describe(val=">1 : Nombre de faces")
 async def dice(interaction : discord.Interaction, val: int) :
         GUILD=interaction.guild
-        await interaction.response.defer(ephemeral=True)
+        await interaction.response.defer()
         if val <= 1 :
             await interaction.response.send_message(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
         else :
@@ -435,10 +436,11 @@ async def dice(interaction : discord.Interaction, val: int) :
                 mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list6[num-1]
                 await interaction.followup.send(content=mots)
             else :
+                logcha= discord.utils.get(GUILD.channels,id=logs_id)
+                await logcha.send(f'dé de {val} lancé donne {num}')
                 if num==1:
                     #await prisontime(GUILD, interaction.user)
                     add_count(interaction.user)
-                    await discord.utils.get(GUILD.channels, name="erreurs").send("dé lancé")
                 numv=((1-dlim)*num+dlim-val)/(1-val)
                 if (num<dlim) and (num>dlim) :
                     try :
