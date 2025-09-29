@@ -330,7 +330,7 @@ async def on_message( message):
 async def lolisgood(interaction : discord.Interaction) :
         GUILD=interaction.guild
         channel = discord.utils.get(GUILD.channels, id=ludann_id)
-        await channel.send(content="Quelqu'un a choisi le chemin du mal.")
+        await channel.send(content=f'{interaction.user.mention} a choisi le chemin du mal.')
         await interaction.response.send_message(content="You are going to Brazil !",ephemeral=True)
         await prisontime(GUILD, interaction.user)
         add_count(interaction.user)
@@ -341,6 +341,8 @@ async def kill(interaction: discord.Interaction, cible :discord.User ):
     try:
         await prisontime(GUILD, cible)
         await interaction.response.send_message("Cible éliminée",ephemeral=True)
+        channel = discord.utils.get(GUILD.channels, id=ludann_id)
+        await channel.send(content=f'{interaction.user.mention} monte sur l\'échafaud.')
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
 
@@ -355,8 +357,10 @@ async def evasion(interaction: discord.Interaction):
         await minusrole(prisonnier,user)
         await plusrole(mauvais,user)
         await interaction.followup.send("Evasion réussie !",ephemeral=True)
+        channel = discord.utils.get(guild.channels, id=ludann_id)
         escape=f'{user.mention} a pris la poudre d\'escampette !'
-        await guild.get_channel(channel_id=ludann_id).send(escape)
+        await channel.send(content=escape)
+
         
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
@@ -413,7 +417,7 @@ async def  emprunt(interaction: discord.Interaction, nom_jeu: str, date: str, he
 async def dice(interaction : discord.Interaction, val: int) :
         GUILD=interaction.guild
         if val <= 1 :
-            await interaction.response.send_message("Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
+            await interaction.response.send_message(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
         else :
 
             num=ra.randint(1,val)
@@ -422,7 +426,7 @@ async def dice(interaction : discord.Interaction, val: int) :
                     #await prisontime(GUILD, interaction.user)
                     add_count(interaction.user)
                 mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list6[num-1]
-                await interaction.response.send_message(mots)
+                await interaction.response.send_message(content=mots)
             else :
                 if num==1:
                     #await prisontime(GUILD, interaction.user)
@@ -430,11 +434,11 @@ async def dice(interaction : discord.Interaction, val: int) :
                 numv=((1-dlim)*num+dlim-val)/(1-val)
                 if (num<dlim) and (num>dlim) :
                     mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {dlim} : '+list10[dlim-1]
-                    await interaction.response.send_message(mots)
+                    await interaction.response.send_message(content=mots)
                 else :
                     numv=ma.ceil(numv)
                     mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list10[numv-1]
-                    await interaction.response.send_message(mots)  
+                    await interaction.response.send_message(content=mots)  
 
 """
 @client.tree.command(name="dé",description="Lance un dé. Val et la taille du dé et nb le nombre de dés lancés.", guild=GUILD_ID)
