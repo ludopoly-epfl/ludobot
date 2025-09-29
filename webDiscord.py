@@ -137,7 +137,7 @@ def islol(word) :
 
 
 def lolbad() :
-    b=7
+    b=10
     n=ra.randint(0, b)
     if n==0 :
         return "LoL is bad."
@@ -154,7 +154,13 @@ def lolbad() :
     elif n==6 :
         return "LoL n'est pas bien."
     elif n==7:
-        return "Il ne faut pas jouer à LoL"
+        return "Il ne faut pas jouer à LoL."
+    elif n==8:
+        return "LoL est une abomination."
+    elif n==9:
+        return "Il faut arrêter LoL et prendre une douche à la place."
+    elif n==10:
+        return "LoL mène le monde à sa perte."
     
 keep_alive()
 
@@ -317,8 +323,8 @@ async def on_message( message):
         if message.author != client.user:
             phrase=dad(message.content)
             if (phrase!=None):
-                #if (len(phrase)>Dad_Limit) :
-                #    await imnotreadingthat(message)
+                if (len(phrase)>Dad_Limit) :
+                    await message.channel.send(content="C'est beaucoup trop de mots, je ne lis pas ça")
                 if "@" in phrase:
                     await message.channel.send("Bien essayé !")
                 else:
@@ -342,7 +348,7 @@ async def kill(interaction: discord.Interaction, cible :discord.User ):
         await prisontime(GUILD, cible)
         await interaction.response.send_message("Cible éliminée",ephemeral=True)
         channel = discord.utils.get(GUILD.channels, id=ludann_id)
-        await channel.send(content=f'{interaction.user.mention} monte sur l\'échafaud.')
+        await channel.send(content=f'{cible.mention} monte sur l\'échafaud.')
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
 
@@ -416,6 +422,7 @@ async def  emprunt(interaction: discord.Interaction, nom_jeu: str, date: str, he
 @app_commands.describe(val=">1 : Nombre de faces")
 async def dice(interaction : discord.Interaction, val: int) :
         GUILD=interaction.guild
+        await interaction.response.defer(ephemeral=True)
         if val <= 1 :
             await interaction.response.send_message(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
         else :
@@ -426,19 +433,25 @@ async def dice(interaction : discord.Interaction, val: int) :
                     #await prisontime(GUILD, interaction.user)
                     add_count(interaction.user)
                 mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list6[num-1]
-                await interaction.response.send_message(content=mots)
+                await interaction.followup.send(content=mots)
             else :
                 if num==1:
                     #await prisontime(GUILD, interaction.user)
                     add_count(interaction.user)
                 numv=((1-dlim)*num+dlim-val)/(1-val)
                 if (num<dlim) and (num>dlim) :
-                    mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {dlim} : '+list10[dlim-1]
-                    await interaction.response.send_message(content=mots)
+                    try :
+                        mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {dlim} : '+list10[dlim-1]
+                        await interaction.followup.send(content=mots)
+                    except:
+                        await interaction.followup.send(content="Il y a un truc chelou avec les dés fin")
                 else :
-                    numv=ma.ceil(numv)
-                    mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list10[numv-1]
-                    await interaction.response.send_message(content=mots)  
+                    try:
+                        numv=ma.ceil(numv)
+                        mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : '+list10[numv-1]
+                        await interaction.followup.send(content=mots)  
+                    except:
+                        await interaction.followup.send(content="Il y a un truc chelou avec les dés")
 
 """
 @client.tree.command(name="dé",description="Lance un dé. Val et la taille du dé et nb le nombre de dés lancés.", guild=GUILD_ID)
