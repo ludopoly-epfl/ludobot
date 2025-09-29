@@ -443,12 +443,14 @@ async def dice(interaction : discord.Interaction, val: int) :
                 numv=((1-dlim)*num+dlim-val)/(1-val)
                 await logcha.send(f'numv= {numv}')
                 if (num<dlim) and (num>dlim) :
+                    await logcha.send(f'numv= {numv}')
                     try :
                         mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {dlim} : {list10[dlim-1]}'
                         await interaction.followup.send(content=mots)
                     except:
                         await interaction.followup.send(content="Il y a un truc chelou avec les dés fin")
                 else :
+                    await logcha.send(f'numv= {numv}')
                     try:
                         numv=ma.ceil(numv)
                         mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : {list10[numv-1]}'
