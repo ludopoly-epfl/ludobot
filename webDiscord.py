@@ -425,7 +425,7 @@ async def dice(interaction : discord.Interaction, val: int) :
         GUILD=interaction.guild
         await interaction.response.defer()
         if val <= 1 :
-            await interaction.response.send_message(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
+            await interaction.followup.send(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
         else :
             num=ra.randint(1,val)
             logcha= discord.utils.get(GUILD.channels,id=logs_id)
@@ -489,3 +489,4 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
+
