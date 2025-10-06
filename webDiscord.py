@@ -189,8 +189,10 @@ async def prisontime(guild : discord.guild, user: discord.Member) :
     prisonnier=discord.utils.get(guild.roles  ,id=prisonnier_id)
     peuple=discord.utils.get(guild.roles,id=1373305997053136936)
     comite=discord.utils.get(guild.roles  ,id=comite_id)
+    mauvais=discord.utils.get(guild.roles  ,id=mauvais_id)
     await minusrole(comite,user)
     await minusrole(peuple,user)
+    await minusrole(mauvais,user)
     await plusrole(prisonnier,user)
 
 
@@ -203,6 +205,30 @@ async def freedom(guild:discord.guild, user:discord.member) :
     await plusrole(peuple,user)
     if user.id in Lidcomte:
         await plusrole(comite,user)
+
+
+async def masterchange(guild:discord.guild, W:discord.Member, L:discord.Member, jeu:str):
+    jeu=jeu.strip().lower().capitalize()
+    game=jeu +" Master"
+    attempt=discord.utils.get(guild.roles  ,name=game)
+    if attempt :
+        await plusrole(attempt, W)
+        await minusrole(attempt,L)
+    else :
+        await guild.create_role(name=game,colour=discord.Colour(0xe74c3c))
+        rolls=discord.utils.get(guild.roles  ,name=game)
+        await plusrole(rolls, W)
+        await minusrole(rolls,L)
+    gameL="Fallen "+jeu +" Master"
+    attempt1=discord.utils.get(guild.roles  ,name=gameL)
+    if attempt1 :
+        await plusrole(attempt1, L)
+        await minusrole(attempt1,W)
+    else :
+        await guild.create_role(name=L,colour=discord.Colour(0x455a95))
+        rolls=discord.utils.get(guild.roles  ,name=gameL)
+        await plusrole(rolls, L)
+        await minusrole(rolls,W)
 
 
 """ Version pas finie faite par moi car trop compliqué
@@ -375,10 +401,10 @@ async def evasion(interaction: discord.Interaction):
 
 
 
-@client.tree.command(name="victoire",description="Libère cible, et lui donne le rôle 'comité' slayer et 'jeu' master",guild=LuluServ)
-@app_commands.describe(cible="Membre à libérer", comité="Membre du Comité vaincu",jeu="Jeu d'affrontement")
+#@client.tree.command(name="victoire",description="Libère cible, et lui donne le rôle 'comité' slayer et 'jeu' master",guild=LuluServ)
+#@app_commands.describe(cible="Membre à libérer", comité="Membre du Comité vaincu",jeu="Jeu d'affrontement")
 async def victoire(interaction: discord.Interaction, cible :discord.Member , comité: discord.Member, jeu : str) :
-    await interaction.response.defer(ephemeral=True)
+    #await interaction.response.defer(ephemeral=True)
     comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
     if   not comite in comité.roles :
         await interaction.followup.send("Membre de comité invalide",ephemeral=True)
@@ -395,20 +421,36 @@ async def victoire(interaction: discord.Interaction, cible :discord.Member , com
     rolle=discord.utils.get(interaction.guild.roles  ,name=envoyer)
     await freedom(interaction.guild, cible)
     await plusrole(rolle, cible)
-    jeu=jeu.strip().lower().capitalize()
-    game=jeu +" Master"
-    attempt=discord.utils.get(interaction.guild.roles  ,name=game)
-    if attempt :
-        await plusrole(attempt, cible)
-    else :
-        await interaction.guild.create_role(name=game,colour=discord.Colour(0xe74c3c))
-        rolls=discord.utils.get(interaction.guild.roles  ,name=game)
-        await plusrole(rolls, cible)
+    masterchange(interaction.guild, cible, comité, jeu)
     await interaction.followup.send("Opération réussie",ephemeral=True)
     victor_phrase=f'Oyez oyez ! {cible.mention} à triomphé de {comité.mention} au {jeu} et a obtenu la liberté !'
     await interaction.guild.get_channel(ludann_id).send(victor_phrase)
     reset_count(cible)
 
+
+@client.tree.command(name="combat",description="A utiliser quand un défi impliquant un comité est résolu",guild=LuluServ)
+@app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
+async def combat(interaction: discord.Interaction, gagnant :discord.Member , perdant: discord.Member, jeu : str) :
+    await interaction.response.defer(ephemeral=True)
+    jeu=jeu.strip().lower().capitalize()
+    game=jeu+" Master"
+    comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
+    if  comite in gagnant.roles :
+        n=n+1
+    if  comite in perdant.roles :
+        n=n+1
+    if(n==0):
+        await interaction.followup.send("Aucun membre spécifié n'est comité",ephemeral=True)
+        return
+    if (n==1):
+        await victoire(interaction,gagnant,perdant,jeu)
+        return
+    if (n==2):
+        await masterchange(interaction.guild,gagnant,perdant,jeu)
+        boom=f'Après avoir triomphé sur {perdant.mention}, {gagnant.mention} prends le titre de {game} !'
+        await interaction.guild.get_channel(ludann_id).send(boom)
+        interaction.followup.send("it is done")
+        return
 
 
 
@@ -425,7 +467,7 @@ async def dice(interaction : discord.Interaction, val: int) :
         GUILD=interaction.guild
         await interaction.response.defer()
         if val <= 1 :
-            await interaction.followup.send(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
+            await interaction.response.send_message(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
         else :
             num=ra.randint(1,val)
             logcha= discord.utils.get(GUILD.channels,id=logs_id)
@@ -489,4 +531,3 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
-
