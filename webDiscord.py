@@ -403,7 +403,7 @@ async def evasion(interaction: discord.Interaction):
 
 #@client.tree.command(name="victoire",description="Libère cible, et lui donne le rôle 'comité' slayer et 'jeu' master",guild=LuluServ)
 #@app_commands.describe(cible="Membre à libérer", comité="Membre du Comité vaincu",jeu="Jeu d'affrontement")
-async def victoire(interaction: discord.Interaction, cible :discord.Member , comité: discord.Member, jeu : str) :
+"""async def victoire(interaction: discord.Interaction, cible :discord.Member , comité: discord.Member, jeu : str) :
     #await interaction.response.defer(ephemeral=True)
     comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
     if   not comite in comité.roles :
@@ -426,7 +426,7 @@ async def victoire(interaction: discord.Interaction, cible :discord.Member , com
     victor_phrase=f'Oyez oyez ! {cible.mention} à triomphé de {comité.mention} au {jeu} et a obtenu la liberté !'
     await interaction.guild.get_channel(ludann_id).send(victor_phrase)
     reset_count(cible)
-
+"""
 
 @client.tree.command(name="combat",description="A utiliser quand un défi impliquant un comité est résolu",guild=LuluServ)
 @app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
@@ -443,15 +443,33 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
     if(n==0):
         await interaction.followup.send("Aucun membre spécifié n'est comité",ephemeral=True)
         return
-    if (n==1):
-        await victoire(interaction,gagnant,perdant,jeu)
-        return
     if (n==2):
         await masterchange(interaction.guild,gagnant,perdant,jeu)
         boom=f'Après avoir triomphé sur {perdant.mention}, {gagnant.mention} prends le titre de {game} !'
         await interaction.guild.get_channel(ludann_id).send(boom)
         interaction.followup.send("it is done")
         return
+    if (n==1):
+            if   not comite in perdant.roles :
+                await interaction.followup.send("Membre de comité invalide",ephemeral=True)
+                return
+            nom= findname(perdant.id)
+            if nom==None:
+                await interaction.followup.send("Erreur comité",ephemeral=True)
+                return   
+            prisonnier=discord.utils.get(interaction.guild.roles  ,id=prisonnier_id)
+            if not prisonnier in gagnant.roles :
+                await interaction.followup.send("La cible n'est pas en prison",ephemeral=True)
+                return
+            envoyer=nom+" Slayer"
+            rolle=discord.utils.get(interaction.guild.roles  ,name=envoyer)
+            await freedom(interaction.guild, gagnant)
+            await plusrole(rolle, gagnant)
+            masterchange(interaction.guild, gagnant, perdant, jeu)
+            await interaction.followup.send("Opération réussie",ephemeral=True)
+            victor_phrase=f'Oyez oyez ! {gagnant.mention} à triomphé de {perdant.mention} au {jeu} et a obtenu la liberté !'
+            await interaction.guild.get_channel(ludann_id).send(victor_phrase)
+            reset_count(gagnant)
 
 
 
