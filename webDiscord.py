@@ -432,6 +432,7 @@ async def victoire(interaction: discord.Interaction, cible :discord.Member , com
 @app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
 async def combat(interaction: discord.Interaction, gagnant :discord.Member , perdant: discord.Member, jeu : str) :
     await interaction.response.defer(ephemeral=True)
+    n=0
     jeu=jeu.strip().lower().capitalize()
     game=jeu+" Master"
     comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
