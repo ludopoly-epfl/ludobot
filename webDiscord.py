@@ -445,13 +445,16 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
         return
     if (n==2):
         await masterchange(interaction.guild,gagnant,perdant,jeu)
-        boom=f'Après avoir triomphé sur {perdant.mention}, {gagnant.mention} prends le titre de {game} !'
+        boom=f'Après avoir triomphé sur {perdant.mention}, {gagnant.mention} lui prends le titre de {game} !'
         await interaction.guild.get_channel(ludann_id).send(boom)
         await interaction.followup.send("it is done")
         return
     if (n==1):
             if   not comite in perdant.roles :
-                await interaction.followup.send("Membre de comité invalide",ephemeral=True)
+                masterchange(interaction.guild,gagnant,perdant,jeu)
+                await interaction.followup.send("C'est bon",ephemeral=True)
+                hehe=f'Face à {perdant.mention}, {gagnant.mention} réussi à défendre sa position et devient {game}'
+                await interaction.guild.get_channel(ludann_id).send(hehe)
                 return
             nom= findname(perdant.id)
             if nom==None:
