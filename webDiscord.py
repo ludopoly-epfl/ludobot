@@ -447,7 +447,7 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
         await masterchange(interaction.guild,gagnant,perdant,jeu)
         boom=f'Après avoir triomphé sur {perdant.mention}, {gagnant.mention} prends le titre de {game} !'
         await interaction.guild.get_channel(ludann_id).send(boom)
-        interaction.followup.send("it is done")
+        await interaction.followup.send("it is done")
         return
     if (n==1):
             if   not comite in perdant.roles :
