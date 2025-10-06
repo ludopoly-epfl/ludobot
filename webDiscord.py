@@ -225,7 +225,7 @@ async def masterchange(guild:discord.guild, W:discord.Member, L:discord.Member, 
         await plusrole(attempt1, L)
         await minusrole(attempt1,W)
     else :
-        await guild.create_role(name=L,colour=discord.Colour(0x455a95))
+        await guild.create_role(name=gameL,colour=discord.Colour(0x455a95))
         rolls=discord.utils.get(guild.roles  ,name=gameL)
         await plusrole(rolls, L)
         await minusrole(rolls,W)
