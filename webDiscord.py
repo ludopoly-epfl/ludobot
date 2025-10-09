@@ -441,7 +441,7 @@ async def evasion(interaction: discord.Interaction):
     reset_count(cible)
 """
 
-@client.tree.command(name="changement roles",description="UTILISER QUE SI COMBAT NE MARCHES PAS !",guild=LuluServ)
+@client.tree.command(name="change_roles",description="UTILISER QUE SI COMBAT NE MARCHES PAS !",guild=LuluServ)
 @app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
 async def change(interaction: discord.Interaction, gagnant :discord.Member , perdant: discord.Member, jeu : str) :
     await interaction.response.defer(ephemeral=True)
