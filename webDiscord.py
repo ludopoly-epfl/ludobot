@@ -198,16 +198,20 @@ async def prisontime(guild : discord.guild, user: discord.Member) :
 
 
 async def freedom(guild:discord.guild, user:discord.member) :
+    logcha=discord.utils.get(guild.channels, id=logs_id)
     prisonnier=discord.utils.get(guild.roles  ,id=prisonnier_id)
     peuple=discord.utils.get(guild.roles,id=1373305997053136936)
     comite=discord.utils.get(guild.roles  ,id=comite_id)
     await minusrole(prisonnier,user)
     await plusrole(peuple,user)
     if user.id in Lidcomte:
+        nam=findname(user.id)
+        logcha.send(f' {nam} has breached containment')
         await plusrole(comite,user)
 
 
 async def masterchange(guild:discord.guild, W:discord.Member, L:discord.Member, jeu:str):
+    logcha=discord.utils.get(guild.channels, id=logs_id)
     jeu=jeu.strip().lower().capitalize()
     game=jeu +" Master"
     fallen=False
@@ -237,6 +241,7 @@ async def masterchange(guild:discord.guild, W:discord.Member, L:discord.Member, 
         if fallen :
             await plusrole(rolls1, L)
         await minusrole(rolls1,W)
+    await logcha.send(f'Changement roles : {jeu}  Gagnant = {W.name} Perdant = {L.name} fallen = {fallen} ')
 
 
 """ Version pas finie faite par moi car trop compliqué
@@ -436,10 +441,20 @@ async def evasion(interaction: discord.Interaction):
     reset_count(cible)
 """
 
+@client.tree.command(name="changement roles",description="UTILISER QUE SI COMBAT NE MARCHES PAS !",guild=LuluServ)
+@app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
+async def change(interaction: discord.Interaction, gagnant :discord.Member , perdant: discord.Member, jeu : str) :
+    await interaction.response.defer(ephemeral=True)
+    await masterchange(interaction.guild,gagnant,perdant,jeu)
+    await interaction.followup("C'est bon")
+
+
+
 @client.tree.command(name="combat",description="A utiliser quand un défi impliquant un comité est résolu",guild=LuluServ)
 @app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
 async def combat(interaction: discord.Interaction, gagnant :discord.Member , perdant: discord.Member, jeu : str) :
     await interaction.response.defer(ephemeral=True)
+    logcha=discord.utils.get(guild.channels, id=logs_id)
     n=0
     jeu=jeu.strip().lower().capitalize()
     game=jeu+" Master"
@@ -476,6 +491,7 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
             rolle=discord.utils.get(interaction.guild.roles  ,name=envoyer)
             await freedom(interaction.guild, gagnant)
             await plusrole(rolle, gagnant)
+            logcha.send(f'{nom} has fallen')
             await interaction.followup.send("Opération réussie",ephemeral=True)
             victor_phrase=f'Oyez oyez ! {gagnant.mention} à triomphé de {perdant.mention} au {jeu} et a obtenu la liberté !'
             await interaction.guild.get_channel(ludann_id).send(victor_phrase)
@@ -499,8 +515,6 @@ async def dice(interaction : discord.Interaction, val: int) :
             await interaction.response.send_message(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
         else :
             num=ra.randint(1,val)
-            logcha= discord.utils.get(GUILD.channels,id=logs_id)
-            await logcha.send(f'dé de {val} lancé donne {num}')
             if val ==6 :
                 if num==1:
                     #await prisontime(GUILD, interaction.user)
@@ -512,16 +526,16 @@ async def dice(interaction : discord.Interaction, val: int) :
                     #await prisontime(GUILD, interaction.user)
                     add_count(interaction.user)
                 numv=((1-dlim)*num+dlim-val)/(1-val)
-                await logcha.send(f'numv= {numv}')
+                
                 if (num<dlim) and (num>dlim-1) :
-                    await logcha.send(f'numv= {numv}')
+                    
                     try :
                         mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {dlim} : {list10[dlim-1]}'
                         await interaction.followup.send(content=mots)
                     except:
                         await interaction.followup.send(content="Il y a un truc chelou avec les dés fin")
                 else :
-                    await logcha.send(f'numv= {numv}')  
+                    
                     try:
                         numv=ma.ceil(numv)
                         mots=f'{interaction.user.mention} à lancé {1} d{val} et à fait {num} : {list10[numv-1]}'
