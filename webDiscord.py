@@ -453,6 +453,7 @@ async def change(interaction: discord.Interaction, gagnant :discord.Member , per
 @client.tree.command(name="combat",description="A utiliser quand un défi impliquant un comité est résolu",guild=LuluServ)
 @app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
 async def combat(interaction: discord.Interaction, gagnant :discord.Member , perdant: discord.Member, jeu : str) :
+    guild=interaction.guild
     await interaction.response.defer(ephemeral=True)
     logcha=discord.utils.get(guild.channels, id=logs_id)
     n=0
