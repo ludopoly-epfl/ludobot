@@ -210,25 +210,33 @@ async def freedom(guild:discord.guild, user:discord.member) :
 async def masterchange(guild:discord.guild, W:discord.Member, L:discord.Member, jeu:str):
     jeu=jeu.strip().lower().capitalize()
     game=jeu +" Master"
+    fallen=False
     attempt=discord.utils.get(guild.roles  ,name=game)
     if attempt :
         await plusrole(attempt, W)
-        await minusrole(attempt,L)
+        if attempt in L.roles :
+            await minusrole(attempt,L)
+            fallen=True
     else :
         await guild.create_role(name=game,colour=discord.Colour(0xe74c3c))
         rolls=discord.utils.get(guild.roles  ,name=game)
         await plusrole(rolls, W)
-        await minusrole(rolls,L)
+        if rolls in L.roles :
+            await minusrole(rolls,L)
+            fallen=True
     gameL="Fallen "+jeu +" Master"
     attempt1=discord.utils.get(guild.roles  ,name=gameL)
+    
     if attempt1 :
-        await plusrole(attempt1, L)
+        if fallen :
+            await plusrole(attempt1, L)
         await minusrole(attempt1,W)
     else :
         await guild.create_role(name=gameL,colour=discord.Colour(0x455a95))
-        rolls=discord.utils.get(guild.roles  ,name=gameL)
-        await plusrole(rolls, L)
-        await minusrole(rolls,W)
+        rolls1=discord.utils.get(guild.roles  ,name=gameL)
+        if fallen :
+            await plusrole(rolls1, L)
+        await minusrole(rolls1,W)
 
 
 """ Version pas finie faite par moi car trop compliqué
@@ -443,17 +451,17 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
     if(n==0):
         await interaction.followup.send("Aucun membre spécifié n'est comité",ephemeral=True)
         return
+    await masterchange(interaction.guild,gagnant,perdant,jeu)
     if (n==2):
-        await masterchange(interaction.guild,gagnant,perdant,jeu)
-        boom=f'Après avoir triomphé sur {perdant.mention}, {gagnant.mention} lui prends le titre de {game} !'
+        
+        boom=f'Oyez oyez ! Après avoir triomphé sur {perdant.mention}, {gagnant.mention} prends le titre de {game} !'
         await interaction.guild.get_channel(ludann_id).send(boom)
         await interaction.followup.send("it is done")
         return
     if (n==1):
             if   not comite in perdant.roles :
-                masterchange(interaction.guild,gagnant,perdant,jeu)
                 await interaction.followup.send("C'est bon",ephemeral=True)
-                hehe=f'Face à {perdant.mention}, {gagnant.mention} réussi à défendre sa position et devient {game}'
+                hehe=f'Oyez oyez ! Face à {perdant.mention}, {gagnant.mention} réussi à défendre sa position pour devenir {game} !'
                 await interaction.guild.get_channel(ludann_id).send(hehe)
                 return
             nom= findname(perdant.id)
@@ -468,7 +476,6 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
             rolle=discord.utils.get(interaction.guild.roles  ,name=envoyer)
             await freedom(interaction.guild, gagnant)
             await plusrole(rolle, gagnant)
-            masterchange(interaction.guild, gagnant, perdant, jeu)
             await interaction.followup.send("Opération réussie",ephemeral=True)
             victor_phrase=f'Oyez oyez ! {gagnant.mention} à triomphé de {perdant.mention} au {jeu} et a obtenu la liberté !'
             await interaction.guild.get_channel(ludann_id).send(victor_phrase)
