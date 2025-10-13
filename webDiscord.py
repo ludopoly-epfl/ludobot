@@ -27,6 +27,7 @@ Lcomité.append("Thomas")
 Lcomité.append("Sébastien")
 Lcomité.append("Éric")
 Lcomité.append("Eric")
+Lcomité.append("Nada")
 
 Lidcomte=list()
 Lidcomte.append(282237085908467713)#andré
@@ -41,6 +42,7 @@ Lidcomte.append(444068012249710593)#pochita
 Lidcomte.append(830494223794831422) #séba
 Lidcomte.append(556476223354830879) #titou
 Lidcomte.append(149928233201172480) #nathan
+Lidcomte.append(692360514319155200) #nada
 
 Allcomite=list()
 Allcomite.append([282237085908467713,"André"])
@@ -55,6 +57,7 @@ Allcomite.append([444068012249710593,"Alonso"])
 Allcomite.append([830494223794831422,"Sébastien"])
 Allcomite.append([556476223354830879,"Titouan"])
 Allcomite.append([149928233201172480,"Nathan"])
+Allcomite.append([692360514319155200,"Nada"])
 
 
 list6=["J'espère pour toi que t'auras pas cette note à l'exa"
@@ -135,6 +138,16 @@ def islol(word) :
         return True
     else :
         return False    
+
+
+def isnatel(word) :
+    words=word.lower()
+    words = re.sub(r'[^a-z0-9\s]', '', words)
+    words= words.replace(" ","")
+    if "natel" in words :
+        return True  
+    else :
+        return False   
 
 
 def lolbad() :
@@ -236,11 +249,11 @@ async def masterchange(guild:discord.guild, W:discord.Member, L:discord.Member, 
             await plusrole(attempt1, L)
         await minusrole(attempt1,W)
     else :
-        await guild.create_role(name=gameL,colour=discord.Colour(0x455a95))
-        rolls1=discord.utils.get(guild.roles  ,name=gameL)
         if fallen :
+            await guild.create_role(name=gameL,colour=discord.Colour(0x455a95))
+            rolls1=discord.utils.get(guild.roles  ,name=gameL)
             await plusrole(rolls1, L)
-        await minusrole(rolls1,W)
+            await minusrole(rolls1,W)
     await logcha.send(f'Changement roles : {jeu}  Gagnant = {W.name} Perdant = {L.name} fallen = {fallen} ')
 
 
@@ -441,6 +454,15 @@ async def evasion(interaction: discord.Interaction):
     reset_count(cible)
 """
 
+async def slay(guild:discord.guild ,W:discord.Member, id_L: int):
+    name=findname(id_L)
+    logcha=discord.utils.get(guild.channels, id=logs_id)
+    Nrole= name+" Slayer"
+    rolle=discord.utils.get(guild.roles  ,name=Nrole)
+    await plusrole(rolle, W)
+    logcha.send(f'{name} has fallen')
+
+
 @client.tree.command(name="change_roles",description="UTILISER QUE SI COMBAT NE MARCHES PAS !",guild=LuluServ)
 @app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
 async def change(interaction: discord.Interaction, gagnant :discord.Member , perdant: discord.Member, jeu : str) :
@@ -457,6 +479,7 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
     await interaction.response.defer(ephemeral=True)
     logcha=discord.utils.get(guild.channels, id=logs_id)
     n=0
+    
     jeu=jeu.strip().lower().capitalize()
     game=jeu+" Master"
     comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
@@ -472,6 +495,7 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
         
         boom=f'Oyez oyez ! Après avoir triomphé sur {perdant.mention}, {gagnant.mention} prends le titre de {game} !'
         await interaction.guild.get_channel(ludann_id).send(boom)
+        await slay(interaction.guild,gagnant,perdant.id)
         await interaction.followup.send("it is done")
         return
     if (n==1):
@@ -488,11 +512,10 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
             if not prisonnier in gagnant.roles :
                 await interaction.followup.send("La cible n'est pas en prison",ephemeral=True)
                 return
-            envoyer=nom+" Slayer"
-            rolle=discord.utils.get(interaction.guild.roles  ,name=envoyer)
+            await slay(interaction.guild,gagnant,perdant.id)
             await freedom(interaction.guild, gagnant)
-            await plusrole(rolle, gagnant)
-            logcha.send(f'{nom} has fallen')
+            
+            
             await interaction.followup.send("Opération réussie",ephemeral=True)
             victor_phrase=f'Oyez oyez ! {gagnant.mention} à triomphé de {perdant.mention} au {jeu} et a obtenu la liberté !'
             await interaction.guild.get_channel(ludann_id).send(victor_phrase)
@@ -513,7 +536,7 @@ async def dice(interaction : discord.Interaction, val: int) :
         GUILD=interaction.guild
         await interaction.response.defer()
         if val <= 1 :
-            await interaction.response.send_message(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
+            await interaction.followup.send(content="Je vais te retrouver si tu continues à mettre des valeurs comme ça") 
         else :
             num=ra.randint(1,val)
             if val ==6 :
