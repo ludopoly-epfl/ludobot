@@ -499,6 +499,8 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
         await interaction.followup.send("it is done")
         return
     if (n==1):
+            if perdant.id in comite_id :
+                await slay(interaction.guild,gagnant,perdant.id)
             if   not comite in perdant.roles :
                 await interaction.followup.send("C'est bon",ephemeral=True)
                 hehe=f'Oyez oyez ! Face à {perdant.mention}, {gagnant.mention} réussi à défendre sa position pour devenir {game} !'

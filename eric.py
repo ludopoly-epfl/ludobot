@@ -11,12 +11,7 @@ scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive']
 credentials = ServiceAccountCredentials.from_json_keyfile_name('credentials.json', scope)
 client = gspread.authorize(credentials)
-""""
-@bot.tree.command(name="emprunt", description="Emprunter un jeu")
-@app_commands.describe(nom_jeu="Nom complet du jeu à emprunter",
-                       date="Date de récupération (JJ/MM/AAAA)",
-                       heure="Heure de récupération (HH:MM)")
-"""
+
 
 async def emprun(interaction: discord.Interaction, nom_jeu: str, date: str, heure: str):
     
@@ -125,7 +120,7 @@ class ConfirmButton(Button):
 
         channel = discord.utils.get(interaction.guild.channels, name="gestion-prêts")
 
-        await self.emprunteur.send(f"Le **{self.jeu}** sera disponible en cm qqchose. \n"
+        await self.emprunteur.send(f"Le **{self.jeu}** sera disponible en dans le casier 712, en face de la salle cm010 (code du cadenas : 134). \n"
                                    f"Date : " + self.date + "\n"
                                    f"Heure : " + self.heure)
         
