@@ -98,6 +98,10 @@ admin_id=1361760489268318228
 comite_id=1407440127210422383
 mauvais_id=1417910380138725396
 logs_id=1422224976605610115
+bigE_id=1424017430010790061
+imperium_id=1424016940170477578
+Gandalf_id=1445052629695729824
+magic_id=1445052629695729824
 
 def findname( comiteid ):
     for i in Allcomite:
@@ -471,6 +475,30 @@ async def change(interaction: discord.Interaction, gagnant :discord.Member , per
     await interaction.followup("C'est bon")
 
 
+@client.tree.command(name="Imperium",description="Ajoute le rôle Twilight Imperium",guild=LuluServ)
+@app_commands.describe(cible="Membre à donner le rôle")
+async def imperium(interaction: discord.Interaction, cible :discord.Member) :
+    await interaction.response.defer(ephemeral=True)
+    imperator=discord.utils.get(interaction.guild.roles  ,id=bigE_id)
+    guys=discord.utils.get(interaction.guild.roles  ,id=imperium_id)
+    if imperator in interaction.user.roles :
+        await plusrole(guys,cible)
+        await interaction.followup("Ave Imperator")
+    else:
+        await interaction.followup("Absolutely not, go fuck yourself")
+
+@client.tree.command(name="Magic",description="Ajoute le rôle Magic",guild=LuluServ)
+@app_commands.describe(cible="Membre à donner le rôle")
+async def magic(interaction: discord.Interaction, cible :discord.Member) :
+    await interaction.response.defer(ephemeral=True)
+    imperator=discord.utils.get(interaction.guild.roles  ,id=Gandalf_id)
+    guys=discord.utils.get(interaction.guild.roles  ,id=magic_id)
+    if imperator in interaction.user.roles :
+        await plusrole(guys,cible)
+        await interaction.followup("Bien Magicien")
+    else:
+        await interaction.followup("Absolutely not, go fuck yourself")
+
 
 @client.tree.command(name="combat",description="A utiliser quand un défi impliquant un comité est résolu",guild=LuluServ)
 @app_commands.describe(gagnant="Membre victorieux du combat", perdant="Membre vaincu",jeu="Jeu d'affrontement")
@@ -600,4 +628,3 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
-
