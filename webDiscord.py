@@ -499,7 +499,7 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
         await interaction.followup.send("it is done")
         return
     if (n==1):
-            if perdant.id in comite_id :
+            if perdant.id in Lidcomte :
                 await slay(interaction.guild,gagnant,perdant.id)
             if   not comite in perdant.roles :
                 await interaction.followup.send("C'est bon",ephemeral=True)
@@ -600,3 +600,4 @@ client.run(TOKEN)
 #Pour plus tard
 #await interaction.response.defer(ephemeral=True)
 #await interaction.followup.send("bla",ephemeral=True)
+
