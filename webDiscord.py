@@ -475,7 +475,7 @@ async def change(interaction: discord.Interaction, gagnant :discord.Member , per
     await interaction.followup("C'est bon")
 
 
-@client.tree.command(name="Imperium",description="Ajoute le rôle Twilight Imperium",guild=LuluServ)
+@client.tree.command(name="imperium",description="Ajoute le rôle Twilight Imperium",guild=LuluServ)
 @app_commands.describe(cible="Membre à donner le rôle")
 async def imperium(interaction: discord.Interaction, cible :discord.Member) :
     await interaction.response.defer(ephemeral=True)
@@ -487,7 +487,7 @@ async def imperium(interaction: discord.Interaction, cible :discord.Member) :
     else:
         await interaction.followup("Absolutely not, go fuck yourself")
 
-@client.tree.command(name="Magic",description="Ajoute le rôle Magic",guild=LuluServ)
+@client.tree.command(name="magic",description="Ajoute le rôle Magic",guild=LuluServ)
 @app_commands.describe(cible="Membre à donner le rôle")
 async def magic(interaction: discord.Interaction, cible :discord.Member) :
     await interaction.response.defer(ephemeral=True)
