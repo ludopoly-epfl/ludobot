@@ -191,8 +191,14 @@ async def imnotreadingthat(message :discord.message):
         await message.channel.send("Je ne lirais pas ça")
 
 async def plusrole (role :discord.Role, user: discord.Member):
-    if (not role in user.roles) :
-        await user.add_roles(role)
+    try :
+        if not (role in user.roles):
+            await user.add_roles(role)
+    except:
+        logcha=discord.utils.get(role.guild.channels, id=logs_id)
+        logcha.send("Les roles ne rolent pas bien")
+
+ 
 
 async def minusrole (role: discord.Role, user: discord.Member):
     if role in user.roles and user and role:
