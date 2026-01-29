@@ -100,7 +100,7 @@ mauvais_id=1417910380138725396
 logs_id=1422224976605610115
 bigE_id=1424017430010790061
 imperium_id=1424016940170477578
-Gandalf_id=1445052629695729824
+Gandalf_id=1445052706959003820
 magic_id=1445052629695729824
 
 def findname( comiteid ):
@@ -489,21 +489,21 @@ async def imperium(interaction: discord.Interaction, cible :discord.Member) :
     guys=discord.utils.get(interaction.guild.roles  ,id=imperium_id)
     if imperator in interaction.user.roles :
         await plusrole(guys,cible)
-        await interaction.followup("Ave Imperator")
+        await interaction.followup.send("Ave Imperator")
     else:
-        await interaction.followup("Absolutely not, go fuck yourself")
+        await interaction.followup.send("Absolutely not, go fuck yourself")
 
 @client.tree.command(name="magic",description="Ajoute le rôle Magic",guild=LuluServ)
 @app_commands.describe(cible="Membre à donner le rôle")
 async def magic(interaction: discord.Interaction, cible :discord.Member) :
     await interaction.response.defer(ephemeral=True)
-    imperator=discord.utils.get(interaction.guild.roles  ,id=Gandalf_id)
+    Mage=discord.utils.get(interaction.guild.roles  ,id=Gandalf_id)
     guys=discord.utils.get(interaction.guild.roles  ,id=magic_id)
-    if imperator in interaction.user.roles :
+    if Mage in interaction.user.roles :
         await plusrole(guys,cible)
-        await interaction.followup("Bien Magicien")
+        await interaction.followup.send("Bien Magicien")
     else:
-        await interaction.followup("Absolutely not, go fuck yourself")
+        await interaction.followup.send("Absolutely not, go fuck yourself")
 
 
 @client.tree.command(name="combat",description="A utiliser quand un défi impliquant un comité est résolu",guild=LuluServ)
