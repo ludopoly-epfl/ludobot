@@ -157,6 +157,31 @@ def isnatel(word) :
 def lolbad() :
     b=10
     n=ra.randint(0, b)
+    match n:
+        case 0 :
+            return "LoL is bad."
+        case 1 :
+            return "LoL is evil."
+        case 2 :
+            return "LoL est une addiction."
+        case 3 :
+            return "LoL est mauvais."
+        case 4 :
+            return "LoL ne doit pas être utilisé."
+        case 5 :
+            return "LoL is not good."
+        case 6 :
+            return "LoL n'est pas bien."
+        case 7:
+            return "Il ne faut pas jouer à LoL."
+        case 8:
+            return "LoL est une abomination."
+        case 9:
+            return "Il faut arrêter LoL et prendre une douche à la place."
+        case 10:
+            return "LoL mène le monde à sa perte."
+
+"""""
     if n==0 :
         return "LoL is bad."
     elif n==1 :
@@ -179,7 +204,8 @@ def lolbad() :
         return "Il faut arrêter LoL et prendre une douche à la place."
     elif n==10:
         return "LoL mène le monde à sa perte."
-    
+    elif 
+"""""    
 keep_alive()
 
 async def imnotreadingthat(message :discord.message):
