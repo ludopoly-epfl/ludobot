@@ -515,9 +515,9 @@ async def imperium(interaction: discord.Interaction, cible :discord.Member) :
     guys=discord.utils.get(interaction.guild.roles  ,id=imperium_id)
     if imperator in interaction.user.roles :
         await plusrole(guys,cible)
-        await interaction.followup.send("Ave Imperator")
+        await interaction.followup("Ave Imperator")
     else:
-        await interaction.followup.send("Absolutely not, go fuck yourself")
+        await interaction.followup("Absolutely not, go fuck yourself")
 
 @client.tree.command(name="magic",description="Ajoute le rôle Magic",guild=LuluServ)
 @app_commands.describe(cible="Membre à donner le rôle")
@@ -527,9 +527,9 @@ async def magic(interaction: discord.Interaction, cible :discord.Member) :
     guys=discord.utils.get(interaction.guild.roles  ,id=magic_id)
     if Mage in interaction.user.roles :
         await plusrole(guys,cible)
-        await interaction.followup.send("Bien Magicien")
+        await interaction.followup("Bien Magicien")
     else:
-        await interaction.followup.send("Absolutely not, go fuck yourself")
+        await interaction.followup("Absolutely not, go fuck yourself")
 
 
 @client.tree.command(name="combat",description="A utiliser quand un défi impliquant un comité est résolu",guild=LuluServ)
