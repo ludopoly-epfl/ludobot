@@ -13,3 +13,6 @@ def run():
 def keep_alive():
     t = Thread(target=run)
     t.start()
+
+
+#Fichier très important je ne sais pas comment ça marche mais n'y touche pas plz
