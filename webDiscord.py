@@ -72,6 +72,7 @@ class Client(commands.Bot):
         if m_test:
             await logcha.send("hon")
             bienvenue=f'Bienvenue {member.mention}, tu commence ta vie ici hors de la {member.guild.get_channel(prison_id)}, pour le moment...'
+        bienvenue=f'Bienvenue {member.mention} dans le serveur de Ludopoly, un lieu de jeu et de mise en prison arbitraire !'
 
         
         await member.guild.get_channel(chabienv_id).send(bienvenue)
