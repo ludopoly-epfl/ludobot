@@ -53,12 +53,16 @@ class Client(commands.Bot):
     async def on_member_join(self, member:discord.Member):
         
         logcha=discord.utils.get(member.guild.channels, id=logs_id)
-        pris_test=await checkrole(prison_id,member)
+        pris_test=await checkrole(prisonnier_id ,member)
         lol_test= await checkrole(lol_id,member)
         m_test=await checkrole(mauvais_id,member)
         bienvenue="za warudo"
         await logcha.send("pit")
-
+        if True :
+            await logcha.send("aaa")
+            await logcha.send(pris_test)
+            await logcha.send(lol_test)
+            await logcha.send(m_test)
         if lol_test :
             await logcha.send("We're gonna have to kill this guy")
         if pris_test or lol_test :
