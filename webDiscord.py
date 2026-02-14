@@ -56,13 +56,17 @@ class Client(commands.Bot):
         pris_test=await checkrole(prison_id,member)
         lol_test= await checkrole(lol_id,member)
         m_test=await checkrole(mauvais_id,member)
-        bienvenue=' '
+        bienvenue="za warudo"
+        await logcha.send("pit")
+
         if lol_test :
             await logcha.send("We're gonna have to kill this guy")
         if pris_test or lol_test :
             bienvenue=f'Bienvenue {member.mention}, tu commence ta vie ici dans la {member.guild.get_channel(prison_id)}, regarde le message pin là bas'
             await prisontime(member.guild, member)
+            await logcha.send("hag")
         if m_test:
+            await logcha.send("hon")
             bienvenue=f'Bienvenue {member.mention}, tu commence ta vie ici hors de la {member.guild.get_channel(prison_id)}, pour le moment...'
 
         
