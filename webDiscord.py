@@ -145,6 +145,17 @@ async def evasion(interaction: discord.Interaction):
         await interaction.response.send_message("Erreur",ephemeral=True)
 
 
+@client.tree.command(name="rolelist",description="Donne la liste des roles",guild=LuluServ)
+async def rolelist(interaction: discord.Interaction):
+    guild=interaction.guild
+    await interaction.response.defer(ephemeral=True)
+    logcha=discord.utils.get(guild.channels, id=logs_id)
+    await logcha.send(f'Liste des rôles de {interaction.user.mention} :')
+    for role in interaction.guild.roles :
+        await logcha.send(f'{await checkrole(role.id,interaction.user)} : {role.name} ')
+
+    await interaction.followup.send("Tache accomplie",ephemeral=True)
+
 
 
 
