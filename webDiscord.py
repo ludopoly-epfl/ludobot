@@ -9,9 +9,9 @@ from keepalive import keep_alive
 from eric import emprun
 from outilsCheck import islol,iscomité,findname,isnatel,dad
 from comité import Lcomité,Lidcomte,Allcomite
-from variablesglobales import Gandalf_id,bigE_id,chabienv_id,comite_id,prison_id,prisonnier_id,ludann_id,logs_id,LudopServId,imperium_id,magic_id,mauvais_id,admin_id,list6,list10,trucs
+from variablesglobales import lol_id,Gandalf_id,bigE_id,chabienv_id,comite_id,prison_id,prisonnier_id,ludann_id,logs_id,LudopServId,imperium_id,magic_id,mauvais_id,admin_id,list6,list10,trucs
 
-from outilsDiscord import prisontime,minusrole,plusrole,freedom,masterchange,slay
+from outilsDiscord import prisontime,minusrole,plusrole,freedom,masterchange,checkrole,slay
 from lolisbad import lolbad
 
 TOKEN=os.getenv("DISCORD_TOKEN")
@@ -51,9 +51,20 @@ class Client(commands.Bot):
             print(f'not good we {e}')
 
     async def on_member_join(self, member:discord.Member):
-        bienvenue=f'Bienvenue {member.mention}, tu commence ta vie ici dans la {member.guild.get_channel(prison_id)}, regarde le message pin là bas'
-        await prisontime(member.guild, member)
-        print(bienvenue)
+        
+        logcha=discord.utils.get(member.guild.channels, id=logs_id)
+        pris_test=await checkrole(prison_id)
+        lol_test= await checkrole(lol_id)
+        m_test=await checkrole(mauvais_id)
+        if lol_test :
+            await logcha.send("We're gonna have to kill this guy")
+        if pris_test or lol_test :
+            bienvenue=f'Bienvenue {member.mention}, tu commence ta vie ici dans la {member.guild.get_channel(prison_id)}, regarde le message pin là bas'
+            await prisontime(member.guild, member)
+        if m_test:
+            bienvenue=f'Bienvenue {member.mention}, tu commence ta vie ici hors de la {member.guild.get_channel(prison_id)}, pour le moment...'
+
+        
         await member.guild.get_channel(chabienv_id).send(bienvenue)
 
 
