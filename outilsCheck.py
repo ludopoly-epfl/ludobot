@@ -1,6 +1,7 @@
 import re
 from comité import Lcomité,Lidcomte,Allcomite
-
+import discord
+from variablesglobales import twi_id
 #Toutes les fonctions utilisées pour vérifier des conditions sont dedans 
 
 
@@ -97,3 +98,9 @@ def dad(texte:str) :
         else  :
             mots="Hi "+bla+" ! I'm Ludobot !"
             return mots
+        
+async def amogus_cond( message: discord.message):
+    channel=message.channel
+    twil=discord.utils.get(message.author.guild.channels, id=twi_id)
+    nathan_id=149928233201172480
+    return (channel==twil and message.author.id==nathan_id) or ("amogus" in message.content)

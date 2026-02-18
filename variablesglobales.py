@@ -16,6 +16,7 @@ imperium_id=1424016940170477578 #role twilight imperium
 Gandalf_id=1445052706959003820 #role grand magicien
 magic_id=1445052629695729824 #role magic
 lol_id=1471517764140138628 #role lol
+twi_id=1373189815524397086 #channel twi imp
 
 
 
