@@ -98,9 +98,7 @@ async def on_message( message):
             if isnatel(message.content):
                 add_count(message.author)
             
-            if await amogus(message,client):
-                emoji = discord.utils.get(client.get_all_emojis(), name='amogus')
-                await client.add_reaction(message, emoji)
+            await amogus(message,client)
 
             phrase=dad(message.content)
             if (phrase!=None):

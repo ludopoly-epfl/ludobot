@@ -104,5 +104,5 @@ async def amogus( message: discord.message,client :discord.client):
     twil=discord.utils.get(message.author.guild.channels, id=twi_id)
     nathan_id=149928233201172480
     if (channel==twil and message.author.id==nathan_id) or ("amogus" in message.content):
-        emoji = discord.utils.get(client.get_all_emojis(), name='amogus')
+        emoji = discord.utils.get(client.emojis, name='amogus')
         await client.add_reaction(message, emoji)
