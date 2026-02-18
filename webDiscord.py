@@ -7,7 +7,7 @@ from discord import app_commands
 import os
 from keepalive import keep_alive
 from eric import emprun
-from outilsCheck import islol,iscomité,findname,isnatel,dad,amogus_cond
+from outilsCheck import islol,iscomité,findname,isnatel,dad,amogus
 from comité import Lcomité,Lidcomte,Allcomite
 from variablesglobales import lol_id,Gandalf_id,bigE_id,chabienv_id,comite_id,prison_id,prisonnier_id,ludann_id,logs_id,LudopServId,imperium_id,magic_id,mauvais_id,admin_id,list6,list10,trucs
 
@@ -98,7 +98,7 @@ async def on_message( message):
             if isnatel(message.content):
                 add_count(message.author)
             
-            if await amogus_cond(message):
+            if await amogus(message,client):
                 emoji = discord.utils.get(client.get_all_emojis(), name='amogus')
                 await client.add_reaction(message, emoji)
 
