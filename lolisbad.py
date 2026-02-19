@@ -2,7 +2,7 @@ import random as ra
 
 
 def lolbad() :
-    b=28
+    b=29
     n=ra.randint(0, b)
     match n:
         case 0 :

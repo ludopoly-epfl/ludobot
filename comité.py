@@ -13,6 +13,12 @@ Lcomité.append("Sébastien")
 Lcomité.append("Éric")
 Lcomité.append("Eric")
 Lcomité.append("Nada")
+Lcomité.append("Alex")
+Lcomité.append("Julian")
+Lcomité.append("Fabio")
+Lcomité.append("Térence")
+Lcomité.append("Haïdar")
+
 
 
 Lidcomte=list()
@@ -29,7 +35,11 @@ Lidcomte.append(830494223794831422) #séba
 Lidcomte.append(556476223354830879) #titou
 Lidcomte.append(149928233201172480) #nathan
 Lidcomte.append(692360514319155200) #nada
-
+Lidcomte.append(704956684048662589) #Alex
+Lidcomte.append(483703009885290529) #Julian
+Lidcomte.append(506422046016929792) #Fabio
+Lidcomte.append(525704576964231170) #Térence
+Lidcomte.append(836647296472055828) #Haïdar
 
 
 Allcomite=list()
@@ -46,3 +56,8 @@ Allcomite.append([830494223794831422,"Sébastien"])
 Allcomite.append([556476223354830879,"Titouan"])
 Allcomite.append([149928233201172480,"Nathan"])
 Allcomite.append([692360514319155200,"Nada"])
+Allcomite.append([704956684048662589,"Alex"])
+Allcomite.append([483703009885290529,"Julian"])
+Allcomite.append([506422046016929792,"Fabio"])
+Allcomite.append([525704576964231170,"Térence"])
+Allcomite.append([836647296472055828,"Haïdar"])
