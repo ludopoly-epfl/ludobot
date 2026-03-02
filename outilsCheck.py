@@ -101,7 +101,7 @@ def dad(texte:str) :
         
 async def amogus( message: discord.message,client :discord.client):
     channel=message.channel
-    twil=discord.utils.get(message.author.guild.channels, id=twi_id)
+    twil=discord.utils.get(message.guild.channels, id=twi_id)
     nathan_id=149928233201172480
     if (channel==twil and message.author.id==nathan_id) or ("amogus" in message.content):
         emoji = discord.utils.get(client.emojis, name='amogus')

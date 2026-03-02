@@ -110,6 +110,7 @@ async def on_message( message):
                     await message.channel.send(phrase)
             elif islol(message.content):
                 await message.channel.send(lolbad())
+                add_count
 
 @client.tree.command(name="lolisgood",description="Interdit ça", guild=LuluServ)
 async def lolisgood(interaction : discord.Interaction) :
