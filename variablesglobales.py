@@ -17,8 +17,9 @@ Gandalf_id=1445052706959003820 #role grand magicien
 magic_id=1445052629695729824 #role magic
 lol_id=1471517764140138628 #role lol
 twi_id=1373189815524397086 #channel twi imp
-
-
+ludobot_id=1410554773610168320 #Id de Ludobot
+feur_id=577856714347511828 # Id du FeurBot
+bot_id=1373224965419044916 #Id du rôle de Bot
 
 list6=["J'espère pour toi que t'auras pas cette note à l'exa"
 ,"Aïe, coup dur pour Guillaume"

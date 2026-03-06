@@ -7,7 +7,7 @@ from discord import app_commands
 
 from outilsCheck import islol,iscomité,findname,isnatel,dad
 from comité import Lcomité,Lidcomte,Allcomite
-from variablesglobales import Gandalf_id,bigE_id,chabienv_id,comite_id,prison_id,prisonnier_id,ludann_id,logs_id,LudopServId,imperium_id,magic_id,mauvais_id,admin_id,list6,list10,trucs
+from variablesglobales import bot_id,Gandalf_id,bigE_id,chabienv_id,comite_id,prison_id,prisonnier_id,ludann_id,logs_id,LudopServId,imperium_id,magic_id,mauvais_id,admin_id,list6,list10,trucs
 
 
 async def imnotreadingthat(message :discord.message):
@@ -39,7 +39,8 @@ async def checkrole (roleid :int, user: discord.Member):
 
 async def prisontime(guild : discord.guild, user: discord.Member) :
     admin=discord.utils.get(guild.roles, id=admin_id)
-    if admin in user.roles:
+    bot=discord.utils.get(guild.roles,id=bot_id)
+    if admin in user.roles or bot in user.roles:
         return
     prisonnier=discord.utils.get(guild.roles  ,id=prisonnier_id)
     peuple=discord.utils.get(guild.roles,id=1373305997053136936)

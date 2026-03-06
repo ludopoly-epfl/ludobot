@@ -9,7 +9,7 @@ from keepalive import keep_alive
 from eric import emprun
 from outilsCheck import islol,iscomité,findname,isnatel,dad,amogus
 from comité import Lcomité,Lidcomte,Allcomite
-from variablesglobales import lol_id,Gandalf_id,bigE_id,chabienv_id,comite_id,prison_id,prisonnier_id,ludann_id,logs_id,LudopServId,imperium_id,magic_id,mauvais_id,admin_id,list6,list10,trucs
+from variablesglobales import feur_id,ludobot_id,lol_id,Gandalf_id,bigE_id,chabienv_id,comite_id,prison_id,prisonnier_id,ludann_id,logs_id,LudopServId,imperium_id,magic_id,mauvais_id,admin_id,list6,list10,trucs
 
 from outilsDiscord import prisontime,minusrole,plusrole,freedom,masterchange,checkrole,slay
 from lolisbad import lolbad
@@ -124,11 +124,15 @@ async def lolisgood(interaction : discord.Interaction) :
 @client.tree.command(name="exécution",description="Retirer le rôle peuple de la cible et la place en prison",guild=LuluServ)
 async def kill(interaction: discord.Interaction, cible :discord.User ):
     GUILD=interaction.guild
+    prisonnier=discord.utils.get(interaction.guild.roles  ,id=prisonnier_id)
     try:
         await prisontime(GUILD, cible)
         await interaction.response.send_message("Cible éliminée",ephemeral=True)
         channel = discord.utils.get(GUILD.channels, id=ludann_id)
-        await channel.send(content=f'{cible.mention} monte sur l\'échafaud.')
+        mots=f'{cible.mention} monte sur l\'échafaud ...'
+        if not prisonnier in cible.roles:
+            mots+=' Mais il ne meurt pas !'
+        await channel.send(content=mots)
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
 
@@ -204,9 +208,24 @@ async def magic(interaction: discord.Interaction, cible :discord.Member) :
 async def combat(interaction: discord.Interaction, gagnant :discord.Member , perdant: discord.Member, jeu : str) :
     guild=interaction.guild
     await interaction.response.defer(ephemeral=True)
+    prisonnier=discord.utils.get(interaction.guild.roles  ,id=prisonnier_id)
     logcha=discord.utils.get(guild.channels, id=logs_id)
     n=0
+    if perdant.id==ludobot_id :
+        await interaction.followup.send("Tu peux pas Slay le Ludobot, tu te prends pour qui ?",ephemeral=True)
+        await prisontime(guild,interaction.user)
+        if prisonnier in interaction.user.roles:
+            boom=f'Jour d\'infamie à Ludopoly ! Dans un élan d\'orgeuil, {interaction.user.mention} a tenté de commettre l\'impensable ! Grande sera sa punition !'
+            await interaction.guild.get_channel(ludann_id).send(boom)
+        return
     
+    if gagnant.id==ludobot_id:
+        await interaction.followup.send("Le Ludobot n'a besoin de slay personne",ephemeral=True)
+        return
+    
+    if gagnant.id == feur_id or perdant.id==feur_id:
+        await interaction.followup.send("Feur !")
+        return
     jeu=jeu.strip().lower().capitalize()
     game=jeu+" Master"
     comite=discord.utils.get(interaction.guild.roles  ,id=comite_id)
@@ -237,7 +256,7 @@ async def combat(interaction: discord.Interaction, gagnant :discord.Member , per
             if nom==None:
                 await interaction.followup.send("Erreur comité",ephemeral=True)
                 return   
-            prisonnier=discord.utils.get(interaction.guild.roles  ,id=prisonnier_id)
+            
             if not prisonnier in gagnant.roles :
                 await interaction.followup.send("La cible n'est pas en prison",ephemeral=True)
                 return
