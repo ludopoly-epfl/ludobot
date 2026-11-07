@@ -34,8 +34,8 @@ async def minusrole (role: discord.Role, user: discord.Member):
 
 async def checkrole (roleid :int, user: discord.Member):
     role =discord.utils.get(user.guild.roles  ,id=roleid)
-    return role in user.roles
-
+    #return role in user.roles
+    return (role.id == roleid for role in user.roles)
 
 async def prisontime(guild : discord.guild, user: discord.Member) :
     admin=discord.utils.get(guild.roles, id=admin_id)

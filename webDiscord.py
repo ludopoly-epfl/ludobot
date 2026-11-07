@@ -131,7 +131,7 @@ async def kill(interaction: discord.Interaction, cible :discord.User ):
         channel = discord.utils.get(GUILD.channels, id=ludann_id)
         mots=f'{cible.mention} monte sur l\'échafaud ...'
         if not prisonnier in cible.roles:
-            mots+=' Mais il ne meurt pas !'
+            mots+=' Mais ne meurt pas !'
         await channel.send(content=mots)
     except:
         await interaction.response.send_message("Erreur",ephemeral=True)
